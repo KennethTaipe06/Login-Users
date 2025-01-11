@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const logger = require('../logger');
 const router = express.Router();
 
 /**
@@ -61,11 +62,13 @@ router.post('/login', async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
+      logger.warn('Invalid email or password');
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
+      logger.warn('Invalid email or password');
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
@@ -73,8 +76,10 @@ router.post('/login', async (req, res) => {
       expiresIn: '1h'
     });
 
+    logger.info('User logged in successfully');
     res.json({ token });
   } catch (err) {
+    logger.error('Server error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });

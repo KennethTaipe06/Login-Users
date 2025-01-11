@@ -4,6 +4,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
+const logger = require('./logger');
 require('dotenv').config();
 
 const app = express();
@@ -34,10 +35,10 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
-  console.log('Connected to MongoDB');
+  logger.info('Connected to MongoDB');
   app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running on port ${PORT}`);
+    logger.info(`Server running on port ${PORT}`);
   });
 }).catch(err => {
-  console.error('Database connection error:', err);
+  logger.error('Database connection error:', err);
 });
