@@ -1,9 +1,10 @@
 {
   "name": "login-users",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "API for user login and JWT generation",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

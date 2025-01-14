@@ -64,13 +64,7 @@ router.post('/login', async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if (!user) {
-      logger.warn('Invalid email or password');
-      return res.status(400).json({ message: 'Invalid email or password' });
-    }
-
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
+    if (!user || !(await user.matchPassword(password))) {
       logger.warn('Invalid email or password');
       return res.status(400).json({ message: 'Invalid email or password' });
     }
