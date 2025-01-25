@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const logger = require('../logger');
+const logger = require('../utils/logger'); // Actualizar la ruta de importación
 
 const connectDB = async () => {
   try {

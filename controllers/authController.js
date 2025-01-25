@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const logger = require('../logger');
-const redisClient = require('../redisClient');
+const logger = require('../utils/logger');
+const redisClient = require('../utils/redisClient');
 const bcrypt = require('bcryptjs');
+const sendLoginMessage = require('../producers/loginProducer');
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -27,6 +28,9 @@ const loginUser = async (req, res) => {
     await redisClient.set(user._id.toString(), token, {
       EX: 3600 // Expira en 1 hora
     });
+
+    // Enviar mensaje a Kafka
+    await sendLoginMessage(user._id.toString(), token);
 
     logger.info('User logged in successfully');
     res.json({ token, userId: user._id });
