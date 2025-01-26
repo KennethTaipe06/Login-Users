@@ -6,8 +6,8 @@ const connectDB = require('./config/db');
 const setupSwagger = require('./config/swagger');
 const logger = require('./utils/logger');
 const authRoutes = require('./routes/auth');
-const logoutAuthConsumer = require('./consumers/logoutAuthConsumer');
-const passResetConsumer = require('./consumers/passResetConsumer');
+//const logoutAuthConsumer = require('./consumers/logoutAuthConsumer');
+//const passResetConsumer = require('./consumers/passResetConsumer');
 const userCreateConsumer = require('./consumers/userCreateConsumer');
 const userDeleteConsumer = require('./consumers/userDeleteConsumer');
 const userEditConsumer = require('./consumers/userEditConsumer');
@@ -36,8 +36,8 @@ connectDB().then(() => {
   });
 
   // Iniciar los consumidores de Kafka
-  logoutAuthConsumer.run().catch(console.error);
-  passResetConsumer.run().catch(console.error);
+  //logoutAuthConsumer.run().catch(console.error);
+  //passResetConsumer.run().catch(console.error);
   userCreateConsumer.run().catch(console.error);
   userDeleteConsumer.run().catch(console.error);
   userEditConsumer.run().catch(console.error);
